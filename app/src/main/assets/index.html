@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0f766e">
+<title>MiniApp</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+:root{font-family:system-ui,-apple-system,sans-serif;background:#f1f5f9;color:#0f172a}
+body{padding:12px 12px calc(120px + env(safe-area-inset-bottom));max-width:520px;margin:0 auto}
+h1{font-size:1.1rem;color:#0f766e;text-align:center;padding:8px 0 2px}
+.soustitre{font-size:.72rem;color:#64748b;text-align:center;margin-bottom:12px}
+.card{background:#fff;border-radius:14px;padding:14px;margin-bottom:10px;box-shadow:0 1px 3px rgba(15,23,42,.08)}
+.card h2{font-size:.8rem;text-transform:uppercase;letter-spacing:.5px;color:#0f766e;margin-bottom:10px}
+label{display:block;font-size:.72rem;font-weight:600;color:#475569;margin:8px 0 4px}
+input,select{width:100%;padding:12px;font-size:1.05rem;border:1.5px solid #cbd5e1;border-radius:10px;background:#fff;color:#0f172a}
+input:focus,select:focus{outline:none;border-color:#0f766e}
+.sub{margin-top:10px;font-size:.85rem;color:#334155;background:#f0fdfa;border-radius:8px;padding:8px 10px}
+.sub b{color:#0f766e}
+#bar{position:fixed;bottom:0;left:0;right:0;background:#0f766e;color:#fff;padding:calc(10px + env(safe-area-inset-bottom)) 14px 12px;box-shadow:0 -3px 10px rgba(15,23,42,.15)}
+#bar .lab{font-size:.7rem;text-transform:uppercase;letter-spacing:.8px;opacity:.85}
+#bar .val{font-size:2rem;font-weight:700;line-height:1.15}
+#bar .val small{font-size:1rem;font-weight:600}
+#bar .form{font-size:.68rem;opacity:.8;margin-top:2px}
+</style>
+</head>
+<body>
+
+<h1>📱 MiniApp</h1>
+<p class="soustitre">Page de démarrage — remplacez ce contenu</p>
+
+<div class="card">
+<h2>Exemple · Règle de trois</h2>
+<label>Si A</label>
+<input id="rA" type="number" inputmode="decimal" value="10">
+<label>donne B</label>
+<input id="rB" type="number" inputmode="decimal" value="2">
+<label>alors C</label>
+<input id="rC" type="number" inputmode="decimal" value="25">
+<div class="sub" id="rSub"></div>
+</div>
+
+<div id="bar">
+<div class="lab">Résultat</div>
+<div class="val" id="barVal">—</div>
+<div class="form" id="barForm"></div>
+</div>
+
+<script>
+function $(id){return document.getElementById(id);}
+function fmt(n){
+  if(!isFinite(n))return "—";
+  var s=(Math.round(n*1000)/1000).toString();
+  return s.replace(".",",");
+}
+function calc(){
+  var A=parseFloat($("rA").value),B=parseFloat($("rB").value),C=parseFloat($("rC").value);
+  var x=(A&&isFinite(B)&&isFinite(C))?B*C/A:NaN;
+  $("rSub").innerHTML="Résultat : <b>"+fmt(x)+"</b>";
+  $("barVal").textContent=fmt(x);
+  $("barForm").textContent="x = ("+fmt(B)+" × "+fmt(C)+") ÷ "+fmt(A);
+}
+["rA","rB","rC"].forEach(function(id){$(id).addEventListener("input",calc);});
+calc();
+</script>
+</body>
+</html>
